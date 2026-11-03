@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer geometric octagon shield in Electric Accent Blue -->
+    <path
+        android:fillColor="#3B82F6"
+        android:fillAlpha="0.16"
+        android:strokeColor="#3B82F6"
+        android:strokeWidth="2.5"
+        android:pathData="M54,22 L78,34 L78,66 L54,84 L30,66 L30,34 Z" />
+    <!-- Bullish Candlesticks & Quantitative Upward Trend Arrow in Emerald -->
+    <path
+        android:fillColor="#10B981"
+        android:pathData="M37,54 L43,54 L43,68 L37,68 Z M39,48 L41,48 L41,72 L39,72 Z" />
+    <path
+        android:fillColor="#3B82F6"
+        android:pathData="M49,44 L55,44 L55,62 L49,62 Z M51,38 L53,38 L53,67 L51,67 Z" />
+    <path
+        android:fillColor="#10B981"
+        android:pathData="M61,34 L67,34 L67,56 L61,56 Z M63,28 L65,28 L65,61 L63,61 Z" />
+    <!-- Sharp AI Signal Vector Ray -->
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M33,66 L48,51 L56,57 L71,36 L65,36 L65,32 L77,32 L77,44 L73,44 L73,39 L56,63 L48,57 L36,69 Z" />
+</vector>

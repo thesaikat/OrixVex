@@ -1,0 +1,179 @@
+{
+  "entities": {
+    "UserSettings": {
+      "title": "UserSettings",
+      "description": "Per-user quantitative trading preferences, strategy profile, and position sizing parameters.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The authenticated user's UID."
+        },
+        "strategyProfile": {
+          "type": "string",
+          "enum": ["Conservative", "Balanced", "Aggressive"],
+          "description": "Selected AI risk and trade style profile."
+        },
+        "defaultTimeframe": {
+          "type": "string",
+          "enum": ["1m", "5m", "15m", "1h", "4h", "1d"],
+          "description": "Default chart and quantitative calculation interval."
+        },
+        "accountBalanceUsd": {
+          "type": "number",
+          "description": "Account balance in USD for position sizing."
+        },
+        "riskPercentPerTrade": {
+          "type": "number",
+          "description": "Percentage of account balance risked per trade."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation server timestamp (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "strategyProfile",
+        "defaultTimeframe",
+        "accountBalanceUsd",
+        "riskPercentPerTrade",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SavedSignal": {
+      "title": "SavedSignal",
+      "description": "An AI quantitative trade recommendation bookmarked by a user into their Signal Vault.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The authenticated owner's UID."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Binance symbol ticker (e.g., BTCUSDT)."
+        },
+        "displayPair": {
+          "type": "string",
+          "description": "Formatted display pair (e.g., BTC/USD)."
+        },
+        "timeframe": {
+          "type": "string",
+          "description": "Candle interval used for quantitative calculation."
+        },
+        "tradingStyle": {
+          "type": "string",
+          "description": "Trading horizon (Scalp, Intraday, Swing)."
+        },
+        "signal": {
+          "type": "string",
+          "enum": ["STRONG BUY", "BUY", "HOLD / NEUTRAL", "SELL", "STRONG SELL"],
+          "description": "AI trade action signal."
+        },
+        "confidence": {
+          "type": "integer",
+          "description": "AI confidence score between 0 and 100."
+        },
+        "marketRegime": {
+          "type": "string",
+          "description": "Identified market regime."
+        },
+        "entryLow": {
+          "type": "number",
+          "description": "Lower bound of entry zone."
+        },
+        "entryHigh": {
+          "type": "number",
+          "description": "Upper bound of entry zone."
+        },
+        "stopLoss": {
+          "type": "number",
+          "description": "Stop loss price level."
+        },
+        "takeProfit1": {
+          "type": "number",
+          "description": "Conservative 1.5R take profit target."
+        },
+        "takeProfit2": {
+          "type": "number",
+          "description": "Standard 2.5R take profit target."
+        },
+        "takeProfit3": {
+          "type": "number",
+          "description": "Extended 4.0R take profit target."
+        },
+        "riskRewardRatio": {
+          "type": "string",
+          "description": "Formatted risk-to-reward ratio string."
+        },
+        "indicatorConfluence": {
+          "type": "array",
+          "description": "List of 4-5 quantitative indicator confluence points."
+        },
+        "invalidationCondition": {
+          "type": "string",
+          "description": "Price action condition that invalidates the setup."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ACTIVE", "TP1_HIT", "TP2_HIT", "TP3_HIT", "STOPPED_OUT"],
+          "description": "Live tracking status against market prices."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation server timestamp (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "symbol",
+        "displayPair",
+        "timeframe",
+        "tradingStyle",
+        "signal",
+        "confidence",
+        "marketRegime",
+        "entryLow",
+        "entryHigh",
+        "stopLoss",
+        "takeProfit1",
+        "takeProfit2",
+        "takeProfit3",
+        "riskRewardRatio",
+        "indicatorConfluence",
+        "invalidationCondition",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserSettings"
+      },
+      "description": "Stores per-user trading strategy preferences and position sizing configuration."
+    },
+    "/users/{userId}/signals/{signalId}": {
+      "schema": {
+        "$ref": "#/entities/SavedSignal"
+      },
+      "description": "Stores bookmarked AI trade signals for a specific user."
+    }
+  }
+}

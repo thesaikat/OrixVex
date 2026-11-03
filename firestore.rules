@@ -1,0 +1,178 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isNumber(val) {
+      return val is int || val is float;
+    }
+
+    function isValidUserSettings(data) {
+      return data.keys().hasAll([
+               'userId',
+               'strategyProfile',
+               'defaultTimeframe',
+               'accountBalanceUsd',
+               'riskPercentPerTrade',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId',
+               'strategyProfile',
+               'defaultTimeframe',
+               'accountBalanceUsd',
+               'riskPercentPerTrade',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.strategyProfile is string && data.strategyProfile in ['Conservative', 'Balanced', 'Aggressive'] &&
+             data.defaultTimeframe is string && data.defaultTimeframe in ['1m', '5m', '15m', '1h', '4h', '1d'] &&
+             isNumber(data.accountBalanceUsd) && data.accountBalanceUsd >= 0 && data.accountBalanceUsd <= 1000000000 &&
+             isNumber(data.riskPercentPerTrade) && data.riskPercentPerTrade >= 0.05 && data.riskPercentPerTrade <= 100 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidSavedSignal(data) {
+      return data.keys().hasAll([
+               'userId',
+               'symbol',
+               'displayPair',
+               'timeframe',
+               'tradingStyle',
+               'signal',
+               'confidence',
+               'marketRegime',
+               'entryLow',
+               'entryHigh',
+               'stopLoss',
+               'takeProfit1',
+               'takeProfit2',
+               'takeProfit3',
+               'riskRewardRatio',
+               'indicatorConfluence',
+               'invalidationCondition',
+               'status',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId',
+               'symbol',
+               'displayPair',
+               'timeframe',
+               'tradingStyle',
+               'signal',
+               'confidence',
+               'marketRegime',
+               'entryLow',
+               'entryHigh',
+               'stopLoss',
+               'takeProfit1',
+               'takeProfit2',
+               'takeProfit3',
+               'riskRewardRatio',
+               'indicatorConfluence',
+               'invalidationCondition',
+               'status',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.symbol is string && data.symbol.size() >= 3 && data.symbol.size() <= 20 &&
+             data.displayPair is string && data.displayPair.size() >= 3 && data.displayPair.size() <= 24 &&
+             data.timeframe is string && data.timeframe in ['1m', '5m', '15m', '1h', '4h', '1d'] &&
+             data.tradingStyle is string && data.tradingStyle.size() >= 3 && data.tradingStyle.size() <= 40 &&
+             data.signal is string && data.signal in ['STRONG BUY', 'BUY', 'HOLD / NEUTRAL', 'SELL', 'STRONG SELL'] &&
+             data.confidence is int && data.confidence >= 0 && data.confidence <= 100 &&
+             data.marketRegime is string && data.marketRegime.size() >= 3 && data.marketRegime.size() <= 60 &&
+             isNumber(data.entryLow) && data.entryLow > 0 &&
+             isNumber(data.entryHigh) && data.entryHigh > 0 &&
+             isNumber(data.stopLoss) && data.stopLoss > 0 &&
+             isNumber(data.takeProfit1) && data.takeProfit1 > 0 &&
+             isNumber(data.takeProfit2) && data.takeProfit2 > 0 &&
+             isNumber(data.takeProfit3) && data.takeProfit3 > 0 &&
+             data.riskRewardRatio is string && data.riskRewardRatio.size() >= 3 && data.riskRewardRatio.size() <= 24 &&
+             data.indicatorConfluence is list && data.indicatorConfluence.size() >= 1 && data.indicatorConfluence.size() <= 8 &&
+             data.indicatorConfluence[0] is string && data.indicatorConfluence[0].size() <= 300 &&
+             data.invalidationCondition is string && data.invalidationCondition.size() >= 3 && data.invalidationCondition.size() <= 400 &&
+             data.status is string && data.status in ['ACTIVE', 'TP1_HIT', 'TP2_HIT', 'TP3_HIT', 'STOPPED_OUT'] &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+
+      allow create: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       isValidUserSettings(incoming());
+
+      allow update: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       isValidUserSettings(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'strategyProfile',
+                         'defaultTimeframe',
+                         'accountBalanceUsd',
+                         'riskPercentPerTrade',
+                         'updatedAt'
+                       ]);
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      match /signals/{signalId} {
+        allow get: if isOwner(userId) && isValidId(userId) && isValidId(signalId);
+        allow list: if isOwner(userId) && resource.data.userId == request.auth.uid;
+
+        allow create: if isOwner(userId) &&
+                         isValidId(userId) &&
+                         isValidId(signalId) &&
+                         isValidSavedSignal(incoming());
+
+        allow update: if isOwner(userId) &&
+                         isValidId(userId) &&
+                         isValidId(signalId) &&
+                         isValidSavedSignal(incoming()) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().symbol == existing().symbol &&
+                         incoming().diff(existing()).affectedKeys().hasOnly([
+                           'status',
+                           'updatedAt'
+                         ]);
+
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(signalId);
+      }
+    }
+  }
+}

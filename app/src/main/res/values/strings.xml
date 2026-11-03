@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">OrixVex</string>
+
+    <!-- Auth & Onboarding -->
+    <string name="auth_badge_quant_engine">INSTITUTIONAL QUANTITATIVE AI</string>
+    <string name="auth_subtitle">Institutional AI Trade Intelligence, Real-Time Binance Telemetry &amp; TradingView Execution.</string>
+    <string name="auth_feature_1_title">Sub-Second Binance Stream &amp; TradingView</string>
+    <string name="auth_feature_1_desc">Live WebSocket orderflow for 10 major USD crypto pairs with interactive technical studies.</string>
+    <string name="auth_feature_2_title">Quantitative Indicator Pre-Computation</string>
+    <string name="auth_feature_2_desc">Mathematical EMA 20/50/200, Wilder RSI(14), Session VWAP, ATR(14) &amp; Supertrend(10,3).</string>
+    <string name="auth_feature_3_title">Gemini AI Buy/Sell Confluence &amp; Vault</string>
+    <string name="auth_feature_3_desc">ATR-protected Stop Loss, 1.5R/2.5R/4.0R targets, Position Sizer &amp; Cloud Signal Vault.</string>
+    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_quick_preview_mode">Quick Preview / Demo Mode</string>
+    <string name="auth_connecting">Authenticating with Google…</string>
+    <string name="disclaimer_short">OrixVex provides algorithmic market analysis for informational purposes only and is not financial advice.</string>
+
+    <!-- Navigation -->
+    <string name="nav_terminal">Terminal</string>
+    <string name="nav_scanner">Scanner</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_journal">History &amp; Journal</string>
+    <string name="nav_vault">Risk &amp; Vault</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Terminal Screen -->
+    <string name="terminal_live_stream">LIVE STREAM</string>
+    <string name="terminal_reconnecting">REST FALLBACK</string>
+    <string name="terminal_high_24h">24h High</string>
+    <string name="terminal_low_24h">24h Low</string>
+    <string name="terminal_vol_24h">24h Vol (USD)</string>
+    <string name="terminal_telemetry_header">LIVE QUANTITATIVE TELEMETRY (200 CANDLES)</string>
+    <string name="terminal_generate_ai_signal">Generate AI Signal</string>
+    <string name="terminal_generating_ai_signal">Computing Quant Confluence…</string>
+    <string name="terminal_auto_refresh">Auto 45s</string>
+    <string name="terminal_save_to_vault">Bookmark to Vault</string>
+    <string name="terminal_copied_price">Copied %1$s to clipboard</string>
+    <string name="loading_chart_telemetry">Synchronizing 200-candle Binance OHLCV telemetry…</string>
+
+    <!-- Scanner Screen -->
+    <string name="scanner_title">AI Multi-Pair Market Matrix</string>
+    <string name="scanner_subtitle">Simultaneous 200-candle quantitative telemetry across all 10 major USD pairs</string>
+    <string name="scanner_refresh">Rescan</string>
+
+    <!-- Position Sizer & Vault -->
+    <string name="vault_title">Position Sizer &amp; Signal Vault</string>
+    <string name="vault_calculator_header">INSTITUTIONAL POSITION RISK CALCULATOR</string>
+    <string name="vault_account_balance">Account Balance (USD)</string>
+    <string name="vault_risk_percent">Risk per Trade (%)</string>
+    <string name="vault_saved_signals_header">BOOKMARKED AI SIGNAL VAULT (LIVE TRACKING)</string>
+    <string name="vault_empty_state">No AI signals bookmarked yet. Generate an AI trade recommendation in the Terminal and tap Bookmark to track live TP1/TP2/TP3 and Stop Loss execution.</string>
+
+    <!-- Settings & Account -->
+    <string name="settings_title">Settings &amp; Institutional Profile</string>
+    <string name="settings_account_section">AUTHENTICATED ACCOUNT</string>
+    <string name="settings_preview_mode_title">Quick Preview / Demo Session</string>
+    <string name="settings_preview_mode_desc">Sign in with Google to synchronize your Signal Vault and strategy settings with Cloud Firestore.</string>
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_appearance_section">DUAL-THEME ENGINE</string>
+    <string name="settings_dark_mode_title">Obsidian Dark Mode</string>
+    <string name="settings_white_mode_title">Alabaster White Mode</string>
+    <string name="settings_strategy_section">AI QUANTITATIVE STRATEGY PROFILE</string>
+    <string name="settings_disclaimer_header">LEGAL &amp; FINANCIAL RISK DISCLAIMER</string>
+    <string name="settings_disclaimer_body">OrixVex provides algorithmic and quantitative cryptocurrency market analysis for informational and educational purposes only. Nothing in this application constitutes financial, investment, legal, or tax advice. Cryptocurrency trading involves substantial risk of loss. Always conduct independent due diligence and enforce strict risk management.</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_google_sign_in">Sign in with Google</string>
+    <string name="cd_quick_preview">Enter Quick Preview Mode</string>
+    <string name="cd_toggle_theme">Toggle Dark or White Theme</string>
+    <string name="cd_toggle_tv_widget">Switch between TradingView and QuantCanvas</string>
+    <string name="cd_toggle_drawing_toolbar">Toggle chart drawing tools</string>
+    <string name="cd_toggle_chart_style">Toggle candlesticks or line chart</string>
+    <string name="cd_toggle_fullscreen">Toggle chart fullscreen mode</string>
+    <string name="cd_user_avatar">User profile avatar</string>
+    <string name="cd_copy_price">Copy price level</string>
+    <string name="cd_delete_signal">Delete saved signal</string>
+</resources>
